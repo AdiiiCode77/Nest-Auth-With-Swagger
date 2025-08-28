@@ -7,8 +7,8 @@ import { User } from './user.entity';
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  create(email: string, passwordHash: string) {
-    const user = this.repo.create({ email, passwordHash });
+  create(email: string, username:string, passwordHash: string) {
+    const user = this.repo.create({ email,username, passwordHash });
     return this.repo.save(user);
   }
 
@@ -16,7 +16,21 @@ export class UsersService {
     return this.repo.findOne({ where: { email } });
   }
 
+  async changePassword(email:string, passwordHash:string){
+    const user = await this.findByEmail(email)
+    if(user){
+      user.passwordHash = passwordHash
+      return this.repo.save(user)
+    }
+    return null
+  }
   findById(id: number) {
     return this.repo.findOne({ where: { id } });
+  }
+  DeleteAccount(id: number){
+    return this.repo.delete(id)
+  }
+  DeleteAll(){
+    return this.repo.clear()
   }
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinTable } from 'typeorm';
 import { User } from '../users/user.entity';
 
 @Entity()
@@ -11,6 +11,7 @@ export class Todo {
 
   @Column({ nullable: true })
   description?: string;
+
 
   @Column({ default: false })
   done: boolean;
